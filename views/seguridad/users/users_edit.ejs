@@ -1,0 +1,256 @@
+<%- include('../../partials/t1header'); %>
+<%- include('../../partials/t1navbar'); %>
+<%- include('../../partials/t1menu'); %>
+<%- include('../../partials/t1msg'); %>
+<%- include('../../partials/t1scripts'); %>
+
+<%- include('../../partials/t1_sujetos'); %>
+<%- include('../../partials/t1_controls'); %>
+
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Modificacion de usuario</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/dashboard"><%= parametros.empresa_nombre %></a></li>
+                <li class="breadcrumb-item">Administracion de sistema</li>
+                <li class="breadcrumb-item active">Usuarios</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <form action="/security/users/edit" method="post">
+
+        <section class="section dashboard">
+            <div class="row w-100 justify-content-center">
+                <div class="col-lg-8">
+
+                    <div class="card card info-card sales-card">
+
+                        <div class="filter">
+                            <a class="icon" href="#" onclick="accionRegresar();"><i class="bi bi-x-square"></i></a>
+                            <a id="buttonRegresar" href="/security/usaers" style="display: none;" ></a>
+                        </div>
+
+                        <div class="card-body">
+                            <br>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-1">
+                                    <div class="form-outline">
+                                        <label class="form-label" for="textUsername">Nombre de usuario</label>
+                                        <input type="text" id="textUsername" name="textUsername"
+                                            class="form-control form-control" autocomplete="off"
+                                            required readonly value="<%= tablas.tabla1.usuario %>">
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6 mb-1">
+                                    <div class="form-outline">
+                                        <label class="form-label" for="selectPerfil">Perfil</label>
+                                        <select id="selectPerfil" name="selectPerfil" onchange="setSelectSetValueOnChange('selectPerfil', 'hiddenPerfilTemp')" class="form-select">
+                                        </select>
+                                        <input type="hidden" id="hiddenPerfilTemp" name="hiddenPerfilTemp" >
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 mb-1">
+                                     <div class="form-outline">
+                                        <label class="form-label" for="inputNombreGroup">Nombre</label>
+                                        <div class="input-group" id="inputNombreGroup">
+                                                <input type="text" id="textNombre" name="textNombre"
+                                                    class="form-control form-control" required disabled />
+                                                <a class="btn btn-primary" href="#" onclick="showSearchPeopleFilter()">
+                                                    <i class="bi bi-people"></i>
+                                                </a>                                                
+                                                <input type="hidden" id="hiddenIDTemp" name="hiddenIDTemp" value="<%= tablas.tabla1.id %>">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <br>
+                            
+                            <div class="row">
+                                <div class="col-md-4 mb-1">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" name="switchLogin" id="switchLogin" onchange="setCheckboxSetStatusOnClick('switchLogin', 'hiddenLoginTemp')" checked>
+                                        <label class="form-check-label" for="switchLogin">Puede logearse</label>
+                                        <input type="hidden" name="hiddenStatusLogin" id="hiddenStatusLogin">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 mb-1">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" name="switchStatus" id="switchStatus" onchange="setCheckboxSetStatusOnClick('switchStatus', 'hiddenStatusTemp')" checked>
+                                        <label class="form-check-label" for="switchStatus">Status</label>
+                                        <input type="hidden" name="hiddenStatusTemp" id="hiddenStatusTemp">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-1">                                    
+                                </div>
+                                <div class="col-md-6 mb-1">
+                                    <div class="d-flex justify-content-end pt-3">
+                                        <a href="javascript:;" class="btn btn-secondary"
+                                            onclick="accionRegresar();">Cancelar</a>
+                                        <input type="button" onclick="accionGuardar()" class="btn btn-warning ms-2" value="Guardar">
+                                    
+                                        <input type="submit" id="buttonSubmit" style="display: none;">
+                                    </div>
+                                </div>                                
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <input type="hidden" id="hiddenIDX" name="hiddenIDX" value="<%= tablas.tabla1.idx %>">
+        <input type="hidden" id="hiddenPerfil" name="hiddenPerfil" value="<%= tablas.tabla1.perfil %>">
+        <input type="hidden" id="hiddenID" name="hiddenID" value="<%= tablas.tabla1.id %>">
+        <input type="hidden" id="hiddenStatus" name="hiddenStatus" value="<%= tablas.tabla1.status %>">
+        <input type="hidden" id="hiddenLogin" name="hiddenLogin" value="<%= tablas.tabla1.acceso %>">
+        <input type="hidden" id="hiddenUsername" name="hiddenUsername" value="<%= tablas.tabla1.usuario %>">
+
+    </form>
+
+</main><!-- End #main -->
+
+<script>
+
+
+    function accionValidarCambios() {
+        let tid = document.getElementById("hiddenIDX").value
+        let tperfil = getSelectIdx("selectPerfil")
+        let tstatus = getCheckboxStatus("switchStatus")
+        let tlogin = getCheckboxStatus("switchLogin")
+        let cambio = false
+
+        if (document.getElementById("hiddenPerfil").value != tperfil) {
+            cambio = true
+        }
+
+        if (document.getElementById("hiddenLogin").value != tlogin) {
+            cambio = true
+        }
+        
+        if (document.getElementById("hiddenStatus").value != tstatus) {
+            cambio = true
+        }        
+     
+        return cambio
+    }
+
+
+    function accionRegresar() {    
+        if (accionValidarCambios()) {            
+            var boton = document.getElementById("myModalQuestionbtnSi")
+            boton.addEventListener("click", () => {
+                redirectURL("/security/users")
+            })
+            showQuestion("Seguro desea abortar la actualizacion del registro?")            
+        } else {
+            redirectURL("/security/users")
+        }
+    }
+
+    function accionGuardar() {
+        document.getElementById("hiddenPerfilTemp").value = getSelectIdx("selectPerfil")
+
+        var boton = document.getElementById("myModalQuestionbtnSi")
+            boton.addEventListener("click", () => {
+                document.getElementById("buttonSubmit").click()
+            })
+  
+        if (validateChanges()) {
+            showQuestion("Seguro desea actualizar el registro")
+        } else {
+            showInfo("Imposible actualziar el registro")
+        }
+    }
+
+
+    function showSearchPeopleFilter() {
+        document.getElementById("textSearchPeopleFilter").value = ""
+  
+        var modal1 = new bootstrap.Modal(document.getElementById('myModalSearchPeopleFilter'), {keyboard: false})
+        modal1.show()    
+        }
+
+
+    function execSearchPeopleFilter(idx) {
+        document.getElementById("buttonSearchPeopleFilterResults").click()
+
+        getJSON('/api/catalogs/people/find/4/' + idx)
+            .then((data) => {      
+                document.getElementById("hiddenIDTemp").value = data[0].idx
+                document.getElementById("textNombre").value = data[0].nombre      
+            })
+            .catch((err) => {
+                window.location.replace("/messages/error/" + err)
+            })
+        }     
+
+
+    function Catalogs() {
+        const select = document.getElementById("selectPerfil")
+        const perfil = document.getElementById("hiddenPerfil").value
+        
+        fetch('/api/catalogs/profiles')
+            .then(function (response) {
+                return response.json()
+            }).then(function (data) {                
+                var regs = data.body
+                for (i = 0; i < regs.length; i++) {
+                    let newOption = new Option(regs[i].descripcion, regs[i].idx)
+                    if (regs[i].idx == perfil) {
+                        newOption.setAttribute('selected', true);
+                        document.getElementById("hiddenPerfilTemp").value = regs[i].idx
+                    }
+                    select.add(newOption, undefined)
+                }
+        })
+        
+        const suj = document.getElementById("hiddenID").value    
+        fetch('/api/catalogs/sujeto/name/' + suj)
+            .then(function (response) {
+                return response.json()
+            }).then(function (data) {
+                var regs = data.body   
+                document.getElementById("textNombre").value = regs[0].nombre
+        })
+    }
+
+
+function Init() {
+    Developer('<%= parametros.developer %>')
+    Catalogs() 
+   
+    setCheckboxSetStatus("switchLogin", "<%= tablas.tabla1.login %>", "hiddenLoginTemp") 
+    setCheckboxSetStatus("switchStatus", "<%= tablas.tabla1.status %>", "hiddenStatusTemp") 
+    setSelectSetValue("selectPerfil", "<%= tablas.tabla1.perfil %>")    
+}
+  
+
+window.onload = Init()
+
+
+</script>
+
+
+
+<%- include('../../partials/t1footer'); %>

@@ -1,0 +1,70 @@
+<aside id="sidebar" class="sidebar">
+</aside>
+
+<script>
+
+//function setMenu() {
+  fetch("/api/menu", {
+    method: 'GET'
+  })
+  .then(response => {
+    return response.json()
+  })
+  .then(data => {
+    
+    var m = "<ul class='sidebar-nav' id='sidebar-nav'>" +
+            "   <li class='nav-item'>" +
+            "       <a class='nav-link collapsed' href='/dashboard'>'"+
+            "           <i class='bi bi-grid'></i>" +
+            "           <span>Dashboard</span>" +
+            "       </a>" +
+            "   </li>"
+
+    var menu1 = data.body
+    var menu2 = data.body
+
+    menu1.forEach(element1 => {
+      
+      if (element1.nivel === 1) {
+        
+        m = m + '<li class="nav-item">' +
+                ' <a class="nav-link collapsed" data-bs-target="#' + element1.identificador + '" data-bs-toggle="collapse" href="#">' +
+                '   <i class="' + element1.icono + '"></i><span>' + element1.descripcion + '</span><i class="bi bi-chevron-down ms-auto"></i>' +
+                ' </a>' + 
+                ' <ul id="' + element1.identificador + '" class="nav-content collapse" data-bs-parent="#sidebar-nav">'
+
+        menu2.forEach(element2 => {
+          if (element2.nivel === 2 && element1.idx === element2.padre) {
+
+            m = m + '<li>' +
+                    ' <a href="' + element2.url + '"> ' +
+                    '   <i class="bi bi-circle"></i><span>' + element2.descripcion + '</span>' +
+                    ' </a>' +
+                    '</li>'
+
+          }
+        })
+
+        m = m + '</ul></li>'
+      }
+    })
+
+    m = m + '</ul>'
+
+    var tm = document.getElementById("sidebar")
+    tm.innerHTML = m
+
+
+
+///////////////////////////////////
+
+
+  })
+  .catch(error => {
+
+  })
+//}
+
+
+
+</script>

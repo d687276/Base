@@ -1,0 +1,204 @@
+<%- include('../../partials/t1header'); %>
+<%- include('../../partials/t1navbar'); %>
+<%- include('../../partials/t1menu'); %>
+<%- include('../../partials/t1msg'); %>
+<%- include('../../partials/t1scripts'); %>
+
+<%- include('../../partials/t1_sujetos'); %>
+<%- include('../../partials/t1_controls'); %>
+
+
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Modificacion de usuario</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/dashboard"><%= parametros.empresa_nombre %></a></li>
+                <li class="breadcrumb-item">Administracion de sistema</li>
+                <li class="breadcrumb-item active">Usuarios</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <form action="/security/users/notifications" method="post">
+
+        <section class="section dashboard">
+            <div class="row w-100 justify-content-center">
+                <div class="col-lg-8">
+
+                    <div class="card card info-card sales-card">
+
+                        <div class="filter">
+                            <a class="icon" href="#" onclick="accionRegresar();"><i class="bi bi-x-square"></i></a>
+                        </div>
+
+                        <div class="card-body">
+                            <br>
+
+                            <div class="row">
+                                <div class="col-md-12 mb-1">
+                                    <div class="form-outline">
+                                        <label class="form-label" for="textUsuario">Usuario</label>
+                                        <input type="text" id="textUsuario" name="textUsuario"
+                                            class="form-control form-control" autocomplete="off"
+                                            required readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 mb-1">
+                                    <div class="form-outline">
+                                        <label class="form-label" for="textToken">Token</label>
+                                        <input type="text" id="textToken" name="textToken"
+                                            class="form-control form-control" autocomplete="off"
+                                            required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 mb-1">
+                                    <div class="form-outline">
+                                        <label class="form-label" for="textChat">Chat id</label>
+                                        <input type="text" id="textChat" name="textChat"
+                                            class="form-control form-control" autocomplete="off"
+                                            required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br>
+                            
+                            <div class="row">
+                                <div class="col-md-12 mb-1">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" name="switchNotifica" id="switchNotifica" onchange="setCheckboxSetStatusOnClick('switchLogin', 'hiddenLoginTemp')" checked>
+                                        <label class="form-check-label" for="switchNotifica">Activar notificaciones</label>
+                                        <input type="hidden" name="hiddenswitchNotifica" id="hiddenswitchNotifica" >
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 mb-1">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" name="switchStatus" id="switchStatus" onchange="setCheckboxSetStatusOnClick('switchStatus', 'hiddenStatusTemp')" checked>
+                                        <label class="form-check-label" for="switchStatus">Status</label>
+                                        <input type="hidden" name="hiddenStatusTemp" id="hiddenStatusTemp">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-1">
+                                    <div class="d-flex justify-content-start pt-3">
+                                        <input type="button" onclick="accionRegresar();" class="btn btn-secondary" value="Regresar">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-1">
+                                    <div class="d-flex justify-content-end pt-3">
+                                        <input type="button" onclick="accionGuardar()" class="btn btn-warning ms-2" value="Guardar">
+                                    </div>
+                                </div>
+
+                                <input type="submit" style="display: none;" id="buttonSubmit" name="buttonSubmit">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <input type="hidden" id="hiddenIDX" name="hiddenIDX">
+        <input type="hidden" id="hiddenToken" name="hiddenToken">
+        <input type="hidden" id="hiddenChat" name="hiddenChat">
+
+    </form>
+
+
+
+</main>
+
+
+
+<script>
+
+
+    function accionValidarCambios() {
+        //let tstatus = getCheckboxStatus("switchStatus")
+        //let tnotifi = getCheckboxStatus("switchNotifica")
+        let cambio = false
+        
+        if (document.getElementById("textToken").value != document.getElementById("hiddenToken").value) {
+            cambio = true
+        }
+        
+        if (document.getElementById("textChat").value != document.getElementById("hiddenChat").value) {
+            cambio = true
+        }        
+     
+        return cambio
+    }
+
+
+    function accionRegresar() {    
+        if (accionValidarCambios()) {            
+            var boton = document.getElementById("myModalQuestionbtnSi")
+            boton.addEventListener("click", () => {
+                redirectURL("/security/users")
+            })
+            showQuestion("Seguro desea abortar la actualizacion del registro?")            
+        } else {
+            redirectURL("/security/users")
+        }
+    }
+
+    function accionGuardar() {
+        var boton = document.getElementById("myModalQuestionbtnSi")
+            boton.addEventListener("click", () => {
+                document.getElementById("buttonSubmit").click()
+            })
+  
+        if (accionValidarCambios()) {
+            showQuestion("Seguro desea actualizar el registro")
+        } else {
+            showInfo("Imposible actualziar el registro")
+        }
+    }
+
+
+    function Init() {
+        Developer('<%= parametros.developer %>')
+        
+        document.getElementById("textUsuario").value="<%= tablas.idx %>"
+
+        if ("<%= tablas.idx1 %>" === '1') {
+            document.getElementById("hiddenToken").value="<%= tablas.tabla1.token %>"
+            document.getElementById("hiddenChat").value="<%= tablas.tabla1.chat %>"
+            
+            document.getElementById("textToken").value="<%= tablas.tabla1.token %>"
+            document.getElementById("textChat").value="<%= tablas.tabla1.chat %>"
+        }
+    }
+  
+
+    window.onload = Init()
+
+
+</script>
+
+
+
+
+
+
+
+
+
+<%- include('../../partials/t1footer'); %>

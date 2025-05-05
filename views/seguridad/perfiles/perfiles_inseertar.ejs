@@ -1,0 +1,146 @@
+<%- include('../../partials/t1header'); %>
+<%- include('../../partials/t1navbar'); %>
+<%- include('../../partials/t1menu'); %>
+<%- include('../../partials/t1msg'); %>
+<%- include('../../partials/t1scripts'); %>
+
+
+<div id="divFormInsert">
+
+    <main id="main" class="main">
+
+        <div class="pagetitle">
+            <h1>Registro de perfiles</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/menu"><%= parametros.empresa_nombre %></a></li>
+                    <li class="breadcrumb-item">Administracion de sistema</li>
+                    <li class="breadcrumb-item active">Perfiles</li>
+                </ol>
+            </nav>
+        </div><!-- End Page Title -->
+
+
+        
+
+        <section class="section dashboard">
+            <div class="row w-100 justify-content-center">
+                <div class="col-lg-6">
+
+                    <div class="card card info-card sales-card">
+
+                        <div class="filter">
+                            <a class="icon" href="/security/profiles"><i class="bi bi-x-square"></i></a>
+                        </div>
+
+
+                        <form action="/security/profiles/add" method="post">
+
+                            <div class="card-body">
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-md-12 mb-1">
+                                        <div class="form-outline">
+                                            <label class="form-label" for="textDescripcion">Decripcion</label>
+                                            <input type="text" id="textDescripcion" name="textDescripcion"
+                                                class="form-control form-control" autocomplete="off"
+                                                style="text-transform: uppercase" required />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br>
+                                
+                                <div class="row">
+                                     <div class="col-md-4 mb-1">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="switchStatus" name="switchStatus" checked>
+                                            <label class="form-check-label" for="flexSwitchCheckChecked">Status</label>
+                                        </div>
+                                     </div>
+                                </div>
+                                
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-1">                                    
+                                    </div>
+                                    <div class="col-md-6 mb-1">
+                                        <div class="d-flex justify-content-end pt-3">
+                                            <a href="javascript:;" class="btn btn-secondary"
+                                                onclick="accionRegresar();">Cancelar</a>
+                                            <input type="button" onclick="accionGuardar()" class="btn btn-warning ms-2" value="Guardar">
+                                        
+                                            <input type="submit" id="buttonSubmit" style="display: none;">
+                                        </div>
+                                    </div> 
+                                </div>
+
+
+                            </div>
+
+                        </form>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        
+
+    </main><!-- End #main -->
+
+</div>
+    
+
+<script>
+
+
+    function ReturnMain() {
+        SearchPeople(0)
+    }
+
+
+    function SearchPeople(op) {
+        document.getElementById("divFormInsert").style.display = "none"
+        document.getElementById("divFormSearchPeople").style.display = "none"
+
+        if (op===1) {
+            document.getElementById("divFormSearchPeople").style.display = "block"
+        } else {
+            document.getElementById("divFormInsert").style.display = "block"
+        }
+
+    }
+
+
+    function Catalogs() {
+        const select = document.getElementById("selectPerfil")
+        fetch('/api/catalogs/perfiles/lista')
+        .then(function (response) {
+            return response.json()
+        }).then(function (data) {
+            for (i = 0; i < data.length; i++) {
+                let newOption = new Option(data[i].descripcion, data[i].idx)
+            select.add(newOption, undefined)
+            }
+      })
+    }
+
+
+    function Inicio() {
+        InfoEmpresa()
+        Catalogs() 
+    }
+  
+
+    window.onload = Inicio()
+
+
+</script>
+
+
+
+<%- include('../../partials/t1footer'); %>

@@ -1,0 +1,223 @@
+<%- include('../../partials/t1header'); %>
+<%- include('../../partials/t1navbar'); %>
+<%- include('../../partials/t1menu'); %>
+<%- include('../../partials/t1msg'); %>
+<%- include('../../partials/t1scripts'); %>
+
+
+
+<div id="mainRoles">
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Roles</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/menu"><%= parametros.empresa_nombre %></a></li>
+          <li class="breadcrumb-item">Sistema</li>
+          <li class="breadcrumb-item active">Seguridad</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row w-100 justify-content-center">
+        <div class="col-lg-6">
+
+          <div class="card">
+            <div class="card-body">
+              <br>
+
+              <input type="hidden" id="textIDX" name="textIDX">
+
+              <select class="form-select" aria-label="Default select example" name="selectPerfiles" id="selectPerfiles">
+              </select>
+
+              <br>
+
+              <div class="col-12">
+                <button class="btn btn-primary w-100" onclick="Select()">Seleccionar</button>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+
+  </main><!-- End #main -->
+
+</div>
+
+
+
+
+<div id="mainModules" style="display: none;">
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Roles</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/menu">Inicio</a></li>
+          <li class="breadcrumb-item">Sistema</li>
+          <li class="breadcrumb-item active">Seguridad</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+      <div class="row w-100 justify-content-center">
+        <div class="col-lg-6">
+
+          <div class="card card info-card sales-card">
+
+            <div class="filter">
+                <a class="icon" href="/security/roles"><i class="bi bi-x-square"></i></a>
+            </div>
+
+            <div class="card-body">
+              <br>
+
+              <ul class="checkbox-tree root">
+                <li>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" name="switchStatus" id="switchStatus" onchange="setCheckboxSetStatusOnClick('switchStatus', 'hiddenStatusTemp')" checked>
+                    <label class="form-check-label" for="switchStatus">Manchester United</label>
+                    <input type="hidden" name="hiddenStatusTemp" id="hiddenStatusTemp">
+                  </div>                  
+                    <ul class="manu">
+                      <li>
+                        <input type="checkbox" name="" />
+                        <label>Ryan Giggs</label>
+                      </li>
+                      <li>
+                        <input type="checkbox" name="" />
+                        <label>Paul Scholes</label>
+                      </li>
+                      <li>
+                        <input type="checkbox" name="" />
+                        <label>Wayne Rooney</label>
+                      </li>
+                    </ul>
+                </li>
+                <li>
+                  <input type="checkbox" name="" />
+                  <label>Chelsea</label>
+                  <ul class="chelsea">
+                    <li>
+                      <input type="checkbox" name="" />
+                      <label>Joe Cole</label>
+                    </li>
+                    <li>
+                      <input type="checkbox" name="" />
+                      <label>Frank Lampard</label>
+                    </li>
+                    <li>
+                      <input type="checkbox" name="" />
+                      <label>Didier Drogba</label>
+                    </li>
+                    <li>
+                      <input type="checkbox" name="" />
+                      <label>John Terry</label>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <input type="checkbox" name="" />
+                  <label>Liverpool</label>
+                  <ul class="liverpool">
+                    <li>
+                      <input type="checkbox" name="" />
+                      <label>Fernando Torres</label>
+                    </li>
+                    <li>
+                      <input type="checkbox" name="" />
+                      <label>Steven Gerrard</label>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+
+              <br>
+
+              <div class="col-12">
+                <button class="btn btn-primary w-100" onclick="Select()">Actualizar</button>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+  </main><!-- End #main -->
+
+</div>
+
+
+<script>
+
+
+  function Catalogs() {
+        const select = document.getElementById("selectPerfiles")        
+        
+        fetch('/api/catalogs/profiles')
+            .then(function (response) {
+                return response.json()
+            }).then(function (data) {                
+                var regs = data.body
+                for (i = 0; i < regs.length; i++) {
+                    let newOption = new Option(regs[i].descripcion, regs[i].idx)                    
+                    select.add(newOption, undefined)
+                }
+        })
+             
+    }
+
+
+
+  function Roles() {
+    fetch('/api/operations/cotizaciones').then(
+      function ( response) {
+        return response.json()
+      }).then(
+        function (data) {
+
+        })
+  }
+
+  function Select() {
+    document.getElementById("mainRoles").style.display = "none"
+    document.getElementById("mainModules").style.display = "block"
+    Roles()
+  }
+
+
+
+  function Inicio() {
+    Developer('<%= parametros.developer %>')
+    Catalogs();    
+  }
+
+
+  window.onload = Inicio()
+
+
+</script>
+
+
+
+
+<%- include('../../partials/t1footer'); %>
+
+
+
+
