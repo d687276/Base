@@ -1,12 +1,12 @@
 const resp = require("../../../helpers/response.helper")
 
 const getParams = require("../../../helpers/getparams.helper")
-const pg = require("../../../middelware/")
+const pg = require("../../../helpers/db.helper")
 const cookie = require("../../../helpers/cookies.helper")
 
 
 
-const Perfiles = (req, res) => {
+const Usuarios = (req, res) => {
     let instancia = req.params.instancia
     let sql = "select idx, descripcion, function_formato_status(status) as status from api.perfiles where instancia = $1"
 
@@ -35,15 +35,12 @@ const Perfiles = (req, res) => {
         }
 
     })  
-
-
-    
   }
       
 
 
 
- const PerfilesAgregar = (req, res) => {
+ const UsuariosAgregar = (req, res) => {
     let instancia = req.params.instancia
     let sql = "select usuarios_spi($1, $2, $3, $4, $5) into result"
 
@@ -77,8 +74,9 @@ const Perfiles = (req, res) => {
  }
 
 
+ 
 
- const PerfilesEditar = (req, res) => {
+ const UsuariosEditar = (req, res) => {
     let instancia = req.params.instancia
     let sql = "select usuarios_spi($1, $2, $3, $4, $5) into result"
 
@@ -110,8 +108,10 @@ const Perfiles = (req, res) => {
 
     })  
  }
+
+
 
       
   module.exports = { 
-    Perfiles, PerfilesAgregar, PerfilesEditar
+    Usuarios, UsuariosAgregar, UsuariosEditar
 }

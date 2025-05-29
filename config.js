@@ -18,6 +18,7 @@ module.exports = {
         client_encoding: 'utf8'
     },
     api: {
-        auth: "http://localhost:14001"
+        auth: "http://localhost:14001",
+        catalogos: "http://localhost:14002",
     }
 }
