@@ -1,7 +1,6 @@
 const resp = require("../../../helpers/response.helper")
 
 const getParams = require("../../../helpers/getparams.helper")
-const pg = require("../../../helpers/db.helper")
 const cookie = require("../../../helpers/cookies.helper")
 
 
@@ -16,25 +15,6 @@ const Usuarios = (req, res) => {
     console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
     console.log("API Auth: Perfiles")
 
-    pg.pool.query(sql, parametros, (error1, result1) => {
-        if (error1) {            
-            console.log("====================================================================================")
-
-            params.result.status = "ERROR"
-            params.result.mensaje = error1.message
-
-            resp.error(req, res, params, 500)
-        } else {
-            console.log("====================================================================================")
-
-            params.result.status = "OK"            
-            params.result.registros = result1.rowCount     
-            params.result.tabla = result1.rows       
-
-            resp.success(req, res, params, 200)
-        }
-
-    })  
   }
       
 
@@ -52,61 +32,14 @@ const Usuarios = (req, res) => {
     console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
     console.log("API Auth: Perfiles Agregar")
 
-    pg.pool.query(sql, [parametros], (error1, result1) => {
-        if (error1) {            
-            console.log("====================================================================================")
 
-            params.result.status = "ERROR"
-            params.result.mensaje = error1.message
-
-            resp.error(req, res, params, 500)
-        } else {
-            console.log("====================================================================================")
-
-            params.result.status = "OK"            
-            params.result.registros = result1.rowCount     
-            params.result.tabla = result1.rows       
-
-            resp.success(req, res, params, 200)
-        }
-
-    })  
  }
 
 
  
 
  const UsuariosEditar = (req, res) => {
-    let instancia = req.params.instancia
-    let sql = "select usuarios_spi($1, $2, $3, $4, $5) into result"
 
-    let vars = req.body
-    let parametros = []
-
-    let params = getParams(req, res)
-
-    console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-    console.log("API Auth: Perfiles Agregar")
-
-    pg.pool.query(sql, [parametros], (error1, result1) => {
-        if (error1) {            
-            console.log("====================================================================================")
-
-            params.result.status = "ERROR"
-            params.result.mensaje = error1.message
-
-            resp.error(req, res, params, 500)
-        } else {
-            console.log("====================================================================================")
-
-            params.result.status = "OK"            
-            params.result.registros = result1.rowCount     
-            params.result.tabla = result1.rows       
-
-            resp.success(req, res, params, 200)
-        }
-
-    })  
  }
 
 
