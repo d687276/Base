@@ -3,15 +3,19 @@
 
 <script>
 
+
+
 //function setMenu() {
-  fetch("/api/menu", {
+  fetch("/api/sistema/menu", {
     method: 'GET'
   })
-  .then(response => {
+  .then(response => {    
     return response.json()
   })
   .then(data => {
     
+    alert(JSON.stringify(data.body.result.tabla))
+
     var m = "<ul class='sidebar-nav' id='sidebar-nav'>" +
             "   <li class='nav-item'>" +
             "       <a class='nav-link collapsed' href='/dashboard'>'"+

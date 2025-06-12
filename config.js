@@ -19,7 +19,7 @@ module.exports = {
     },
     api: {
         auth: "http://appuno.dyndns.org:10001",
-        catalogos: "http://localhost:14002",
-        mikrotik: "http://:14003",
+        catalogos: "http://appuno.dyndns.org:11001",
+        mikrotik: "http://appuno.dyndns.org:14003",
     }
 }

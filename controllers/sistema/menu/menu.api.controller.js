@@ -7,10 +7,12 @@ const getParams = require("../../../helpers/getparams.helper")
 
 const Menu = async (req, res) => {
     //////////////////////
-
+    
   const params = getParams(req, res)
 
   const url = params.api.auth + '/menu'
+
+  console.log("::::::: " + url)
   const urldata = {
     usuario: req.session.username,
     perfil: req.session.perfil,
@@ -38,7 +40,7 @@ const Menu = async (req, res) => {
           console.log("=======================================================================")
         } else {
           console.log("-----------------------------------------------------------------------")
-          console.log(JSON.stringify(data))
+          console.log(JSON.stringify(data.body.result.tabla))
           console.log("-----------------------------------------------------------------------")
 
           resp.success(req, res, data.body)      
