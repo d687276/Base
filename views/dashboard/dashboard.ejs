@@ -1,0 +1,76 @@
+<%- include('../partials/header_partials'); %>
+<%- include('../partials/navbar_partials'); %>
+<%- include('../partials/menu_partials'); %>
+<%- include('../partials/msg_partials'); %>
+<%- include('../partials/scripts_partials'); %>
+
+
+
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Dashboard</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/dashboard">
+            <%= parametros.empresa_nombre %>
+          </a></li>
+        <li class="breadcrumb-item active">Dashboard</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section dashboard">
+    <div class="row">
+
+
+      <div class="col-lg-8">
+        <div class="row">
+
+        </div>
+      </div><!-- End Left side columns -->
+
+
+
+
+    </div>
+  </section>
+
+</main>
+
+
+<input type="hidden" id="hidden_LogsRegs" value="10">
+
+<script>
+
+
+  function setLogs(val) {
+    document.getElementById("hidden_LogsRegs").value = val
+    getLogs()
+  }
+
+
+
+  function Init() {
+    Developer('<%= parametros.developer %>')
+  }
+
+
+
+
+
+
+setInterval(() => {
+    }, 10000)
+  
+
+  window.onload = Init();
+
+
+
+
+</script>
+
+          
+
+<%- include('../partials/footer_partials'); %>

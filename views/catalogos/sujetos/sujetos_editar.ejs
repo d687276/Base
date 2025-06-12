@@ -1,0 +1,291 @@
+<%- include('../../partials/t1header'); %>
+<%- include('../../partials/t1navbar'); %>
+<%- include('../../partials/t1menu'); %>
+<%- include('../../partials/t1msg'); %>
+<%- include('../../partials/t1scripts'); %>
+
+
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+            $("#textNombre").autocomplete({
+                source: "/api/autocomplete/nombre",
+                minLength: 2
+            });
+        });                
+</script>
+
+
+
+ <main id="main" class="main">
+
+        <div class="pagetitle">
+            <h1>Alta de personas</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/dashboard"><%= parametros.empresa_nombre %></a></li>
+                    <li class="breadcrumb-item">Catalogos</li>
+                    <li class="breadcrumb-item active">Nombres</li>
+                </ol>
+            </nav>
+        </div><!-- End Page Title -->
+
+
+        <form action="/catalogs/people/add" method="post">
+
+            <section class="section dashboard">
+                <div class="row w-100 justify-content-center">
+                    <div class="col-lg-10">
+
+                        <div class="card info-card sales-card">
+
+                            <div class="filter">
+                                <a class="icon" onclick="accionRegresar();" ><i class="bi bi-x-square"></i></a>
+                                <a id="buttonRegresar" href="/catalogs/people" style="display: none;" ></a>
+                            </div>
+
+                            <div class="card-body">
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-1">
+                                        <div class="form-outline">
+                                            <label class="form-label" for="textNombre">Nombre</label>
+                                            <input type="text" id="textNombre" name="textNombre"
+                                                class="form-control form-control" autocomplete="off"
+                                                style="text-transform: uppercase" required disabled 
+                                                value="<%= tablas.tabla1.nombre %>"  />
+
+                                                <input type="hidden" id="hiddenNombre" value="<%= tablas.tabla1.nombre %>">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-1">
+                                        <div class="form-outline">
+                                            <label class="form-label" for="textPaterno">Apellido paterno</label>
+                                            <input type="text" id="textPaterno" name="textPaterno"
+                                                class="form-control form-control" autocomplete="off"
+                                                style="text-transform: uppercase" required disabled
+                                                value="<%= tablas.tabla1.apellido_paterno %>" />
+
+                                                <input type="hidden" id="hiddenPaterno" value="<%= tablas.tabla1.apellido_paterno %>">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-1">
+                                        <div class="form-outline">
+                                            <label class="form-label" for="textMaterno">Apellido materno</label>
+                                            <input type="text" id="textMaterno" name="textMaterno"
+                                                class="form-control form-control" autocomplete="off"
+                                                style="text-transform: uppercase" required disabled
+                                                value="<%= tablas.tabla1.apellido_materno %>"  />
+
+                                                <input type="hidden" id="hiddenMaterno" value="<%= tablas.tabla1.apellido_materno %>">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="row">
+                                    <div class="col-md-12 mb-1">
+                                        <div class="form-outline">
+                                            <label class="form-label" for="textDireccion">Direccion</label>
+                                            <input type="text" id="textDireccion" name="textDireccion"
+                                                class="form-control form-control" autocomplete="off"
+                                                style="text-transform: uppercase" required 
+                                                value="<%= tablas.tabla2.direccion %>" />
+
+                                                <input type="hidden" id="hiddenDireccion" value="<%= tablas.tabla2.direccion %>">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3 mb-1">
+                                         <div class="form-outline">
+                                            <label class="form-label" for="inputCPGroup">Codigo postal</label>
+                                            <div class="input-group" id="inputCPGroup">
+                                                    <input type="text" id="textCP" name="textCP"
+                                                        class="form-control form-control" autocomplete="off"
+                                                        style="text-transform: uppercase"  />
+                                                    <a class="btn btn-primary" href="#" onclick="BusquedaCP()">
+                                                        <i class="bi bi-search"></i>
+                                                    </a>
+                                            </div>
+                                        </div>
+                                    </div>                                    
+                                </div>
+
+
+                                <div>
+                                    <div class="col-md-12 mb-1">
+                                        <div class="form-outline">
+                                            <label class="form-label" for="selectColonia">Colonia</label>
+                                            <select id="selectColonia" name="selectColonia" required class="form-control form-control">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-1">
+                                        <div class="form-outline">
+                                            <label class="form-label" for="textTelefono">Telefono</label>
+                                            <input type="tel" id="textTelefono" name="textTelefono" autocomplete="off"
+                                                class="form-control form-control" 
+                                                value="<%= tablas.tabla2.telefono %>" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 mb-1">
+                                        <div class="form-outline">
+                                            <label class="form-label" for="textCelular">Celular</label>
+                                            <input type="tel" id="textCelular" name="textCelular" autocomplete="off"
+                                                class="form-control form-control" 
+                                                value="<%= tablas.tabla2.celular %>" />
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-1">
+                                        <div class="form-outline mb-2">
+                                            <label class="form-label" for="textEmail">Email</label>
+                                            <input type="email" id="textEmail" name="textEmail" autocomplete="off"
+                                                class="form-control form-control" required 
+                                                value="<%= tablas.tabla2.email %>" />
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-1">
+                                    </div>
+                                    <div class="col-md-6 mb-1">
+                                        <div class="d-flex justify-content-end pt-3">
+                                            <a href="javascript:;" class="btn btn-secondary"
+                                                onclick="accionRegresar();">Cancelar</a>
+                                            <input type="button" onclick="accionGuardar()" class="btn btn-warning ms-2" value="Guardar">
+                                        
+                                            <input type="submit" style="display: none;" id="buttonSubmit" name="buttonSubmit">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <input type="hidden" name="textIDX" value="<%= tablas.tabla1.idx %>">
+
+        </form>
+
+    </main><!-- End #main -->
+
+
+
+<script>
+
+
+    function accionValidarCambios() {
+        let flag = false
+    
+        if (document.getElementById("textNombre").value != document.getElementById("hiddenNombre").value) {
+          flag = true      
+        }
+
+        if (document.getElementById("textPaterno").value != document.getElementById("hiddenPaterno").value) {
+          flag = true      
+        }
+    
+        if (document.getElementById("textMaterno").value != document.getElementById("hiddenMaterno").value) {
+          flag = true      
+        }
+
+        if (document.getElementById("textDireccion").value != document.getElementById("hiddenDireccion").value) {
+          flag = true      
+        }
+    
+        return flag
+    }
+
+
+    function accionRegresar() {
+        var boton = document.getElementById("myModalQuestionbtnSi")
+        boton.addEventListener("click", () => {
+            document.getElementById("buttonRegresar").click()
+        })
+    
+        if (accionValidarCambios()) {
+          showQuestion("¿Seguro desea abandonar los cambios?")
+        } else {
+        document.getElementById("buttonRegresar").click()
+        }
+    }
+
+
+    function accionGuardar() {
+        var boton = document.getElementById("myModalQuestionbtnSi")
+        boton.addEventListener("click", () => {
+            document.getElementById("buttonSubmit").click()
+        })
+        showQuestion("Seguro desea guardar los cambios?")
+    }
+
+
+    function BusquedaCP(){
+        var cp = document.getElementById("textCP").value
+        cp = cp.trim()
+    
+        if (cp.length===0) {
+                showError("Codigo postal invalido")
+            } else {
+                document.getElementById("selectColonia").innerHTML = ""
+                
+                getJSON("/api/catalogs/cp/search/" + cp)
+                .then((data) => {
+                    var sel = document.getElementById("selectColonia")
+                    data.forEach(element => {
+                        sel.add(new Option(element.cp + " - " + element.colonia, element.idx))
+                        })
+                    })                
+                .catch((err) => {
+                    window.location.replace("/messages/error/" + err)
+                    })        
+            }
+    }
+    
+    
+    function Init() {
+        Developer('<%= parametros.developer %>')
+    }
+
+
+    window.onload = Init()
+
+</script>
+
+
+
+
+
+<%- include('../../partials/t1footer'); %>

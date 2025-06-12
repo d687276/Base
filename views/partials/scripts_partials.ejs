@@ -1,0 +1,63 @@
+<script>
+
+  function getJSON(url) {
+    var u = url
+
+    return new Promise((resolve, reject) => {
+      fetch(url)
+        .then((response) => {
+          if (response.ok) {
+            return response.json()
+          }
+
+          while (u.indexOf("/") >= 0) {
+            u = u.replace("/", "_")
+          }
+
+          reject(
+            'Error de conexion API: ' + u
+          )
+        })
+        .then((json) => {
+
+          resolve(json.body)
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  }
+
+
+  function postJSON(url, obj) {
+    var u = url
+
+    return new Promise((resolve, reject) => {
+      fetch(url, obj)
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+          while (u.indexOf("/") >= 0) {
+            u = u.replace("/", "_")
+          }
+
+          reject(
+            'Error de conexion API: ' + u
+          )
+        })
+        .then((json) => {
+          resolve(json.body)
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  }
+
+
+  function redirectURL(url){
+    window.location = url
+    }
+
+</script>

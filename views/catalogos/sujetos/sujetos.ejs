@@ -1,0 +1,231 @@
+<%- include('../../partials/t1header'); %>
+<%- include('../../partials/t1navbar'); %>
+<%- include('../../partials/t1menu'); %>
+<%- include('../../partials/t1msg'); %>
+<%- include('../../partials/t1scripts'); %>
+
+
+<div id="divFormSearchPeople" style="display: none;">
+
+    <main id="main" class="main">
+
+        <div class="pagetitle">
+            <h1>Sujetos</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/dashoard"><%= parametros.empresa_nombre %></a></li>
+                    <li class="breadcrumb-item">Busqueda</li>
+                    <li class="breadcrumb-item active">Sujetos</li>
+                </ol>
+            </nav>
+        </div><!-- End Page Title -->
+
+
+        <section class="section">
+            <div class="row w-100 justify-content-center">
+                <div class="col-lg-11">
+                    <br>
+                    <div class="card">
+                        <div class="card-body">
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3">
+                                    <select class="form-select" id="selectParam">
+                                        <option value="0">Nombre</option>
+                                        <option value="1">Direccion</option>
+                                        <option value="2">Telefono</option>
+                                        <option value="3">Email</option>
+                                    </select>
+                                            
+                                </div>
+
+                                <div class="col-5">
+
+                                    <div class="input-group" id="inputFiltroGroup">
+
+                                        <input type="text" class="form-control" autocomplete="off"
+                                                id="inputValorBusqueda" aria-describedby="button-addon"
+                                                style="text-transform: uppercase;">
+                                        <button class="btn btn-primary" onclick="FunctionSearchPeople()">
+                                            <i class="bi bi-search"></i>
+                                        </button>
+                                                    
+                                    </div>
+
+                                </div>
+
+                                <div class="col-3"></div>
+
+                                <div class="col-1">
+                                    <div class="btn-group">
+                                        <a href="/catalogs/people/add" class="btn btn-primary">
+                                            <i class="bi bi bi-person-add"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Another variation with a button -->
+    </main>
+
+</div>
+
+
+
+
+<div id="divFormSearchPeopleResults" style="display: none;">
+    <main id="main" class="main">
+
+        <div class="pagetitle">
+            <h1>Caja</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/dashboard"><%= parametros.empresa_nombre %></a></li>
+                    <li class="breadcrumb-item">Caja</li>
+                    <li class="breadcrumb-item active">Busqueda avanzada</li>
+                </ol>
+            </nav>
+        </div><!-- End Page Title -->
+
+        <br>
+
+        <section class="section dashboard">
+            <div class="row w-100 justify-content-center">
+                <div class="col-lg-12">
+
+                    <div class="card">               
+                        <div class="filter">
+                            <a class="icon" href="/catalogs/people"><i class="bi bi-x-square"></i></a>
+                        </div>
+
+                        <div class="card-body">
+                            <h5 class="card-title">Resultado de la busqueda</h5>
+                            <div id="spinnerDiv">
+                                <br>
+                                <br>
+
+                                <div class="d-flex justify-content-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="visually-hidden">Actualizando...</span>
+                                    </div>
+                                </div>
+
+                                <br>
+                            </div>
+
+                            <div class="list-group">
+                                <div id="listBusqueda">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+                
+
+    </main>
+</div>
+
+
+
+
+<script>
+
+
+    function FunctionSearchPeople() {
+        var selectElement = document.querySelector('#selectParam')
+        var param = selectElement.value;
+        var valor = document.getElementById("inputValorBusqueda").value
+
+        if (valor.length === 0) {
+            showError("Filtro invalido")
+        } else {
+            var url = "/api/catalogs/people/find/" + param + "/" + valor
+            document.getElementById("inputValorBusqueda").value = ""
+
+            fetch(url,  {
+                method: 'GET'
+            }).then( function (response) {
+                    return response.json();
+                }).then(function (data) {
+                    var regs = data.body
+                    
+                    if (regs.length > 0) {
+                        document.getElementById("divFormSearchPeopleResults").style.display = "block"
+                        document.getElementById("divFormSearchPeople").style.display = "none"
+
+                        for (i = 0; i < regs.length; i++) {
+
+                            var tnom = regs[i].nombre
+                            var tmai = regs[i].email
+                            var tdir = regs[i].direccion
+                            var ttel = regs[i].telefono
+                             
+                            var xval = "<mark>" + valor.toUpperCase() + "</mark>"
+
+                            document.getElementById("listBusqueda").innerHTML +=
+                                '<a href="/catalogs/people/edit/' + regs[i].idx + '" class="list-group-item list-group-item-action" aria-current="true">' +
+                                '   <div class="d-flex w-100 justify-content-between">' +
+                                '       <h5 class="mb-1">' + tnom.replace(valor.toUpperCase(), xval) + '</h5>' +
+                                '       <small>' + tmai.replace(valor.toUpperCase(), xval) +  '</small>' +
+                                '   </div>' +
+                                '<p class="mb-1">' + tdir.replace(valor.toUpperCase(), xval)  + '</p>' +
+                                '<small>' + ttel.replace(valor.toUpperCase(), xval) + '</small>' +
+                                '</a>'
+                            }   
+                        
+                    }
+                    
+                })
+            
+            document.getElementById("spinnerDiv").style.display = "none"
+        }
+    }
+
+
+    function SearchPeople() {
+        var op = document.getElementById("paramSeccion").value
+
+        document.getElementById("divFormSearchPeople").style.display = "none"
+        document.getElementById("divFormSearchPeopleResults").style.display = "none"
+ 
+        if (op==="0") {
+            document.getElementById("divFormSearchPeople").style.display = "block"
+        } else {
+            document.getElementById("divFormSearchPeopleResults").style.display = "block"
+        }
+    }
+
+    
+    function Init() {
+        SearchPeople()
+        Developer('<%= parametros.developer %>')
+        
+        if ("<%= variables.mensaje %>" === "1") {
+            showInfo("Registro guardado exitosamente")
+        }
+    }
+
+    window.onload = Init()
+
+
+</script>
+
+
+
+
+
+
+<%- include('../../partials/t1footer'); %>
