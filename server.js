@@ -63,6 +63,8 @@ app.use("", require("./routes/auth/auth.routes"))
 app.use("/dashboard", isAuth.isAuth, require("./routes/dashboard/dashboard.routes"))
 app.use("/seguridad", isAuth.isAuth, require("./routes/seguridad/seguirdad.routes"))
 
+app.use("/api/sistema", isAuth.isAuth, require("./routes/sistema/sistema.api.routes"))
+
 app.get("*", (req, res) => {
   res.render("404/404")
 })
