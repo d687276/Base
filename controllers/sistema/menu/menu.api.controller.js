@@ -40,10 +40,10 @@ const Menu = async (req, res) => {
           console.log("=======================================================================")
         } else {
           console.log("-----------------------------------------------------------------------")
-          console.log(JSON.stringify(data.body.result.tabla))
+          console.log(JSON.stringify(data))
           console.log("-----------------------------------------------------------------------")
 
-          resp.success(req, res, data.body)      
+          resp.success(req, res, data)      
         }                             
     })
     .catch(error => {
